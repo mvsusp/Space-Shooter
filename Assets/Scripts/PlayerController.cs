@@ -17,6 +17,12 @@ public class PlayerController : MonoBehaviour {
     public float tilt;
     public Boundary boundary;
 
+    public GameObject shot;
+    public Transform shotSpawn;
+
+    public float fireRate = 0.5f;
+    float nextFire = 0;
+
     void FixedUpdate()
     {
         float moveHorizontal = Input.GetAxis("Horizontal");
@@ -35,5 +41,14 @@ public class PlayerController : MonoBehaviour {
             );
 
         rb.rotation = Quaternion.Euler(0, 0, rb.velocity.x * - tilt);
+    }
+
+    void Update()
+    {
+        if (Input.GetButton("Fire1") && Time.time > nextFire)
+        {
+            nextFire = Time.time + fireRate;
+            Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+        }
     }
 }
